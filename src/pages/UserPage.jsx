@@ -1,17 +1,14 @@
-import TableProducts from "../components/TableProducts/TableProducts.jsx";
+import UserMenuSegments from "../components/UserMenuSegments/UserMenuSegments.jsx";
+import Page404 from "./Page404.jsx";
 
 export default function UserPage() {
     if (localStorage.getItem("user") !== "user") {
-        return (
-            <>
-                <h1>Эта страница не доступна!</h1>
-            </>
-        )
+        return <Page404/>
     }
     else{
         return (
             <>
-                <TableProducts storehouse="storehouse"/>
+                <UserMenuSegments/>
             </>
         )
     }

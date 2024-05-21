@@ -1,18 +1,16 @@
-import TableProducts from "../components/TableProducts/TableProducts.jsx";
-
+import UserMenuSegments from "../components/UserMenuSegments/UserMenuSegments.jsx";
+import Page404 from "./Page404.jsx";
 
 export default function AdminPage() {
     if (localStorage.getItem("user") !== "admin") {
-        return (
-            <>
-                <h1>Эта страница не доступна!</h1>
-            </>
-        )
+        return <Page404/>
     }
     else{
         return (
             <>
-                <TableProducts storehouse="main_storehouse"/>
+                <div>
+                    <UserMenuSegments/>
+                </div>
             </>
         )
     }

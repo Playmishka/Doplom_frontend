@@ -4,9 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import '@fontsource/judson'
 
-
-
-
 function Authentication() {
     const navigate = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
@@ -25,23 +22,22 @@ function Authentication() {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
-            messageApi.open({
-                type: 'success',
-                title: 'LoginPage successfully',
-                content: 'Вы авторизованы'
-            })
-
             localStorage['access_token'] = response.data.access_token;
             localStorage['user'] = response.data.username;
+            if(response.data.username === "admin"){
+                localStorage['storehouse'] = "main_storehouse"
+            }
+            else{
+                localStorage['storehouse'] = "storehouse";
+            }
             navigate(`/${response.data.username}`);
             // Обработка успешной авторизации
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);
             messageApi.open({
                 type: 'error',
-                content: "Ошибка авторизации " + error.message
+                content: "Не верное имя пользователя или пароль"
             })
-            // Обработка ошибки авторизации
         }
     };
 
