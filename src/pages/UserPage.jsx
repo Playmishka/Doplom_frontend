@@ -8,7 +8,9 @@ export default function UserPage() {
     else{
         return (
             <>
-                <UserMenuSegments/>
+                <div>
+                    <UserMenuSegments/>
+                </div>
             </>
         )
     }

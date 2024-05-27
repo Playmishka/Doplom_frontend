@@ -1,8 +1,10 @@
 import {Button, Divider, Input, InputNumber, List, message, Select} from "antd";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {GetAllNamesProducts, GetAllProducts} from "../../requests/GetAllProducts.js";
+import {useNavigate} from "react-router-dom";
+
 function AddProduct() {
+    const navigate = useNavigate();
     const [productName, setProductName] = useState()
     const [allNamesProduct, setAllNamesProduct] = useState([])
 
@@ -33,11 +35,14 @@ function AddProduct() {
         .catch(error => {
             console.error("Ошибка при добавлении товара:", error);
             message.error("Произошла ошибка при добавлении товара");
+            if(error.response.status === 401 && error.response) {
+                  navigate("/")
+              }
         });
     }
 
     useEffect(() => {
-        GetAllProducts(setAllProducts);
+        GetAllProducts(setAllProducts)
     }, [allNamesProduct]);
 
     useEffect(() => {
@@ -90,8 +95,48 @@ function AddProduct() {
     }
 
     useEffect(() => {
-       GetAllNamesProducts(setAllNamesProduct)
+        GetAllNamesProducts(setAllNamesProduct);
     }, []);
+
+
+    function GetAllNamesProducts(setter) {
+        axios.get("http://localhost:8000/products/get_all", {
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            }
+        })
+            .then(response => {
+                // Используем метод map для извлечения только наименований продуктов
+                const productNames = response.data.map(product => product.name);
+                // Обновляем состояние allProducts с полученными наименованиями продуктов
+                setter(productNames);
+            })
+            .catch(error => {
+                console.error("Ошибка при получении списка продуктов:", error);
+                if (error.response.status === 401 && error.response) {
+                    navigate("/")
+                }
+            });
+    }
+
+    function GetAllProducts(setter) {
+        axios.get("http://localhost:8000/products/get_all", {
+            headers: {
+                Accept: "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            }
+        })
+            .then(response => {
+                setter(response.data);
+            })
+            .catch(error => {
+                console.error("Ошибка при получении списка продуктов:", error);
+                if(error.response.status === 401 && error.response) {
+                      navigate("/")
+                  }
+            });
+    }
 
     return (
         <>
@@ -138,7 +183,7 @@ function AddProduct() {
                 </div>
             </div>
         </>
-    )
-}
+    )}
+
 
 export default AddProduct;

@@ -24,7 +24,6 @@ function handleButtonClick(id) {
     })
         .then(() => {
             message.success("Заявка принята");
-            window.location.reload()
     })
     .catch((error) => {
         console.error("Error fetching data:", error);

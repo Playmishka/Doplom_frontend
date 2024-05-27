@@ -3,10 +3,12 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {AdminTableColumns, UserTableColumns} from "./TableColumns.jsx";
 import MessageEmptyTable from "../MessageEmptyTable/MessageEmptyTable.jsx";
+import {useNavigate} from "react-router-dom";
 
 const {contextHolder} = message.useMessage;
 
 function TableReportsAll() {
+  const navigate = useNavigate();
   const [dataTableMain, setDataTableMain] = useState([]);
 
   useEffect(() => {
@@ -21,7 +23,10 @@ function TableReportsAll() {
         setDataTableMain(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error)
+        if(error.response.status === 401 && error.response) {
+                  navigate("/")
+              }
       });
   }, []);
 

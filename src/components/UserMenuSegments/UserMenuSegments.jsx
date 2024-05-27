@@ -84,9 +84,12 @@ function UserMenuSegments() {
 
     return (
         <>
-            <Segmented options={options} value={selectedSegment} onChange={handleSegmentChanged} block size={"large"} />
+            <div>
+                <Segmented options={options} value={selectedSegment} onChange={handleSegmentChanged} block size={"large"}
+            />
             <div className="segment-content"> {/* Обертка для стилей */}
                 {options.find((options) => options.value === selectedSegment)?.component}
+            </div>
             </div>
         </>
     );

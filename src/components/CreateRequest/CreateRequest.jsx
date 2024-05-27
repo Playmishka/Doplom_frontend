@@ -1,11 +1,14 @@
-import { Checkbox, InputNumber, Button, Row, Col } from "antd";
+import { Checkbox, InputNumber, Button, Row, Col, message } from "antd";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import {useNavigate} from "react-router-dom";
 
 function CreateRequest() {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         axios.get("http://localhost:8000/products/get_all", {
@@ -14,6 +17,10 @@ function CreateRequest() {
             }
         }).then(response => {
             setProducts(response.data);
+        }).catch(error => {
+            if(error.response.status === 401 && error.response) {
+                  navigate("/")
+              }
         });
     }, []);
 
@@ -43,6 +50,7 @@ function CreateRequest() {
             }
         }).then(response => {
             console.log(response.data);
+            message.success("Заявка успешно отправлена!");
         }).catch(error => {
             console.error('Error:', error);
         });

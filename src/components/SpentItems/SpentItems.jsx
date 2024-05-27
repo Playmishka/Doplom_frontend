@@ -52,7 +52,7 @@ function SpentItems() {
 
     return (
         <>
-            <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100vh"}}>
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "95vh"}}>
                 <div style={{margin: 15}}>
                     <Select size={"large"} options={options} style={{width: 300, marginRight: 10}} onChange={SelectProduct}/>
                     <InputNumber min={1} disabled={isDisable} max={maxCountSelectedProduct} size="large"
